@@ -1,6 +1,20 @@
+#                       Copyright 2021 Saad Mairaj
+
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+
+#        http://www.apache.org/licenses/LICENSE-2.0
+
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from boolean_question.utils.helper import get_model, set_seed, device
+from boolean_question.utils import get_model, set_seed, device
 from collections import OrderedDict
 
 
@@ -15,7 +29,7 @@ class BoolQ:
     answer using `prediction_details` method. Else use just 
     `predict` method to get the most confident answer."""
 
-    def __init__(self, model=None, confidence=None, seed=26):
+    def __init__(self, model: str = None, confidence: float = None, seed: int = 26):
         """Initialise the BoolQ model to predict question from text passage.
 
         Args:
@@ -38,7 +52,7 @@ class BoolQ:
 
         self._conf = confidence
 
-    def predict(self, passage, question):
+    def predict(self, passage: str, question: str):
         """Predict if the given question is true or false from the passage.
 
         Args:
@@ -57,10 +71,11 @@ class BoolQ:
         logits = self.model(sequence)[0]
         probabilities = torch.softmax(logits, dim=1).detach().cpu().tolist()[0]
         self.probability = OrderedDict()
-        self.probability[round(probabilities[1], 2)] = True
-        self.probability[round(probabilities[0], 2)] = False
+        self.probability[True] = round(probabilities[1], 2)
+        self.probability[False] = round(probabilities[0], 2)
 
-        self.answer = self.probability[max(self.probability.keys())]
+        self.answer = [k for k, v in self.probability.items(
+        ) if v == max(self.probability.values())][0]
         if self._conf is None or self._conf <= self.answer:
             return self.answer
         return None
@@ -74,6 +89,7 @@ class BoolQ:
         data['passage'] = self.passage
         data['question'] = self.question
         data['confidence'] = self._conf
-        data['true confidence'], data['false confidence'] = self.probability.keys()
+        data['true confidence'], data['false confidence'] = list(
+            self.probability.values())
         data['answer'] = self.answer
         return data
