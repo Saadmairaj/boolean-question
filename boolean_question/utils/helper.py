@@ -25,7 +25,7 @@ def device():
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def set_seed(seed):
+def set_seed(seed: int):
     """Completely reproducible results are not guaranteed across 
     PyTorch releases, individual commits, or different platforms. 
     Furthermore, results may not be reproducible between CPU 
@@ -44,14 +44,14 @@ def set_seed(seed):
     Sets seed for random, np.random and for torch.manual_seed. 
     If GPU is present then it torch.manual_seed_all is also set 
     to the same value"""
-    random.seed(26)
-    np.random.seed(26)
-    torch.manual_seed(26)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
 
-def get_model(overwrite=False):
+def get_model(overwrite: bool = False):
     """Returns pretained model path or if not exists 
     downloads te model else raise FileNotFoundError."""
     relative_path = os.path.join(os.path.abspath(
