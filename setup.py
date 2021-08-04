@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __author__ = "Saad Mairaj"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 def get_long_description(path):
