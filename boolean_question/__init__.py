@@ -19,6 +19,6 @@ input and returns either "True" or "False" as predicted answer.
 """
 
 __author__ = "Saad Mairaj"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 from boolean_question.boolq import BoolQ
