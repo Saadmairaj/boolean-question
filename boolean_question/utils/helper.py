@@ -57,12 +57,12 @@ def get_model(overwrite: bool = False):
     relative_path = os.path.join(os.path.abspath(
         os.path.dirname(os.path.dirname(__file__))), "model")
     if not os.path.exists(relative_path) or overwrite:
-        file_url = "https://drive.google.com/u/3/uc?id=1nJh6vjVBO8P0mT0IYAxNYqrPo7Uj2j94"
+        file_url = "https://github.com/Saadmairaj/boolean-question/releases/download/model-v1/model.zip"
         filename = relative_path + '.zip'
 
         if not os.path.exists(filename) or overwrite:
             filename = gdown.download(file_url, filename, use_cookies=True)
-        
+
         if filename is None:
             raise RuntimeError("Unable to download the model")
         gdown.extractall(filename)
