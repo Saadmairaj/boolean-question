@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __author__ = "Saad Mairaj"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 
 def get_long_description(path):
@@ -23,12 +23,12 @@ attrs = dict(
     license='Apache',
     python_requires='>=3',
     install_requires=[
-        'gdown',
-        'torch',
-        'torchvision',
-        'transformers',
-        'pandas',
-        'numpy',
+        'gdown==3.13.0',
+        'torch==1.9.0',
+        'torchvision==0.10.0',
+        'transformers==2.5.1',
+        'pandas==1.3.1',
+        'numpy==1.21.1',
     ],
     keywords=[
         'question-answer',
